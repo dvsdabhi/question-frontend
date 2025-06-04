@@ -112,7 +112,7 @@ const CareerAdvicePage = () => {
     const fetchAdvice = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:8000/api/advices/");
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/advices/`);
         setAdviceList(res.data);
       } catch (err) {
         setError("Server error. Please try again later.");
@@ -175,7 +175,7 @@ const CareerAdvicePage = () => {
                 >
                   {advice.image && (
                     <img
-                      src={`http://localhost:8000${advice.image}`}
+                      src={`${process.env.NEXT_PUBLIC_IMG_URL}/${advice.image}`}
                       alt={advice.title}
                       className="w-full h-48 object-cover"
                     />

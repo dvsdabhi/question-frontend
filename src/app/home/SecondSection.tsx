@@ -13,7 +13,7 @@ const SecondSection = () => {
   useEffect(() => {
     const loadLanguages = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/api/languages/');
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/languages/`);
 
         // Shuffle and slice 4 random items
         const shuffled = res.data.sort(() => 0.5 - Math.random());
@@ -56,7 +56,7 @@ const SecondSection = () => {
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
             <img
-              src={`http://127.0.0.1:8000${language.icon}`}
+              src={`${process.env.NEXT_PUBLIC_IMG_URL}/${language.icon}`}
               alt={language.name}
               className="h-20 w-20 rounded-full object-cover mx-auto bg-secondary"
               width={120}

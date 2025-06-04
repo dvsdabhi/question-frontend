@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     "coding interview",
     "technical interview",
   ],
-  authors: [{ name: "CareerCrack Team", url: "https://careercrack.com" }],
+  authors: [{ name: "Interview Question", url: "https://careercrack.com" }],
   creator: "CareerCrack",
   metadataBase: new URL("https://careercrack.com"),
   openGraph: {

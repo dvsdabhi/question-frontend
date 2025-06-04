@@ -1,6 +1,5 @@
 'use client';
 
-import { Badge } from "@/components/ui/badge";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import {
@@ -22,23 +21,23 @@ interface Question {
 const questionClient = ({ languageId }: { languageId: string }) => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [difficulty, setDifficulty] = useState("all")
 
   useEffect(() => {
     const loadQuestion = async () => {
       setLoading(true);
-      setError(null);
+      setError("");
       try {
         if (languageId) {
-          const res = await axios.get(`http://127.0.0.1:8000/api/questions/?difficulty=${difficulty}&language=${languageId}`)
+          const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/questions/?difficulty=${difficulty}&language=${languageId}`)
           setQuestions(res.data)
           console.log("Languages loaded:", res.data);
         }
       }
       catch (err) {
         console.log(err);
-        setError('Server error. Please try again later.');
+        setError('Server error Please try again later.');
       } finally {
         setLoading(false);
         console.log("Loading End...");
@@ -50,7 +49,6 @@ const questionClient = ({ languageId }: { languageId: string }) => {
     <section className="py-0 justify-items-center">
       <div className="container">
         <div className="text-center justify-items-center">
-          {/* <Badge className="text-4xl font-bold">{"subject"}</Badge> */}
           <h1 className="mt-4 text-4xl font-semibold">Interview Questions & Answers</h1>
           <p className="mt-6 font-medium text-muted-foreground">
             Find out all the essential details about our platform and how it can serve your needs.
@@ -104,7 +102,6 @@ const questionClient = ({ languageId }: { languageId: string }) => {
                       <code className="text-[16px]">{faq.answer}</code>
                     </pre>
                   </div>
-                  {/* <p className="text-sm text-muted-foreground">{faq.answer}</p> */}
                 </div>
               </div>
             ))

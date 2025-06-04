@@ -124,7 +124,7 @@ const QuestionPage = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.get("http://localhost:8000/api/languages/");
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/languages/`);
         setLanguages(res.data);
       } catch (err) {
         setError("Server error. Please try again later.");
@@ -217,7 +217,7 @@ const QuestionPage = () => {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
                     <img
-                      src={`http://127.0.0.1:8000${language.icon}`}
+                      src={`${process.env.NEXT_PUBLIC_IMG_URL}/${language.icon}`}
                       alt={language.name}
                       className="h-20 w-20 rounded-full object-cover mx-auto bg-secondary"
                       width={120}
