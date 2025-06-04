@@ -1,43 +1,37 @@
-// import QuestionClient from './questionClient'
+import QuestionClient from './questionClient'
 
-// export const dynamic = 'force-dynamic' // Optional: disables caching during dev
+export const dynamic = 'force-dynamic'
 
-// interface PageProps {
-//   params: {
-//     id: string
-//   }
-// }
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
 
 // const QuestionPage = async ({ params }: PageProps) => {
-
-//   return <QuestionClient languageId={params.id} />;
+//    const { id } = await params;
+//   return <QuestionClient languageId={id} />;
 // };
 
 // export default QuestionPage;
 
 
-import QuestionClient from './questionClient';
+// import QuestionClient from './questionClient';
 
-export const dynamic = 'force-dynamic'; // Optional: disables caching during dev
+// export const dynamic = 'force-dynamic';
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
+// type Params = Promise<{ id: string }>
 
-// અહીં SEO માટે metadata export
 export async function generateMetadata({ params }: PageProps) {
-  const languageName = params.id.toUpperCase(); // અથવા તમારું logic language name fetch કરવા માટે
+
+  const { id } = await params;
 
   return {
-    title: `${languageName} Interview Questions - Prepare & Crack Interviews | YourSiteName`,
-    description: `Explore curated interview questions for ${languageName}. Get ready for your next tech interview with detailed answers and expert tips.`,
-    keywords: `${languageName}, interview questions, coding interview, tech interview, programming`,
+    title: `Interview Questions - Prepare & Crack Interviews | YourSiteName`,
+    description: `Explore curated interview questions for. Get ready for your next tech interview with detailed answers and expert tips.`,
+    keywords: ` interview questions, coding interview, tech interview, programming`,
     openGraph: {
-      title: `${languageName} Interview Questions - Prepare & Crack Interviews | YourSiteName`,
-      description: `Explore curated interview questions for ${languageName}. Get ready for your next tech interview with detailed answers and expert tips.`,
-      url: `https://yourwebsite.com/question/${params.id}`,
+      title: ` Interview Questions - Prepare & Crack Interviews | YourSiteName`,
+      description: `Explore curated interview questions for Get ready for your next tech interview with detailed answers and expert tips.`,
+      url: `https://yourwebsite.com/question/${id}`,
       siteName: "YourSiteName",
       images: [
         {
@@ -52,15 +46,17 @@ export async function generateMetadata({ params }: PageProps) {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${languageName} Interview Questions - Prepare & Crack Interviews | YourSiteName`,
-      description: `Explore curated interview questions for ${languageName}. Get ready for your next tech interview with detailed answers and expert tips.`,
+      title: `Interview Questions - Prepare & Crack Interviews | YourSiteName`,
+      description: `Explore curated interview questions for. Get ready for your next tech interview with detailed answers and expert tips.`,
       images: ['https://yourwebsite.com/og-image.png'],
     },
   };
 }
 
+
 const QuestionPage = async ({ params }: PageProps) => {
-  return <QuestionClient languageId={params.id} />;
+   const { id } = await params;
+  return <QuestionClient languageId={id} />;
 };
 
 export default QuestionPage;

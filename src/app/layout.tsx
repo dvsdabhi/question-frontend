@@ -43,6 +43,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./header/header";
+import '@mantine/core/styles.css'; 
 import { MantineProvider } from "@mantine/core";
 
 // Google fonts
@@ -112,7 +113,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <MantineProvider withGlobalStyles withNormalizeCSS>
+        <MantineProvider>
           <Header />
           {children}
         </MantineProvider>
