@@ -6,20 +6,6 @@ type PageProps = {
   params: Promise<{ id: string }>;
 };
 
-// const QuestionPage = async ({ params }: PageProps) => {
-//    const { id } = await params;
-//   return <QuestionClient languageId={id} />;
-// };
-
-// export default QuestionPage;
-
-
-// import QuestionClient from './questionClient';
-
-// export const dynamic = 'force-dynamic';
-
-// type Params = Promise<{ id: string }>
-
 export async function generateMetadata({ params }: PageProps) {
 
   const { id } = await params;

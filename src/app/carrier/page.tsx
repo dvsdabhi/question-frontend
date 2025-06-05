@@ -1,98 +1,11 @@
-// "use client";
-
-// import { useEffect, useState } from "react";
-// import axios from "axios";
-
-// interface Advice {
-//   id: number;
-//   title: string;
-//   description: string;
-//   category?: string;
-//   order: number;
-//   image?: string | null;
-// }
-
-// const CareerAdvicePage = () => {
-//   const [adviceList, setAdviceList] = useState<Advice[]>([]);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState("");
-
-//   useEffect(() => {
-//     const fetchAdvice = async () => {
-//       setLoading(true);
-//       try {
-//         const res = await axios.get("http://localhost:8000/api/advices/");
-//         setAdviceList(res.data);
-//       } catch (err) {
-//         setError("Server error. Please try again later.");
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchAdvice();
-//   }, []);
-
-//   return (
-//     <div className="max-w-6xl mx-auto px-4 py-10">
-//       <div className="text-center mb-12">
-//         <h1 className="text-4xl font-bold text-gray-800">Career Advice</h1>
-//         <p className="mt-3 text-gray-600 text-lg">
-//           Expert tips to guide your career forward.
-//         </p>
-//       </div>
-
-//       {loading && (
-//         <div className="flex justify-center items-center">
-//           <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid"></div>
-//           <p className="ml-4 text-gray-600">Loading...</p>
-//         </div>
-//       )}
-
-//       {error && <p className="text-center text-red-600">{error}</p>}
-
-//       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-//         {!loading &&
-//           !error &&
-//           adviceList
-//             .sort((a, b) => a.order - b.order)
-//             .map((advice) => (
-//               <div
-//                 key={advice.id}
-//                 className="bg-white border rounded-2xl shadow-sm hover:shadow-lg transition overflow-hidden"
-//               >
-//                 {advice.image && (
-//                   <img
-//                     src={`http://localhost:8000${advice.image}`}
-//                     alt={advice.title}
-//                     className="w-full h-48 object-cover"
-//                   />
-//                 )}
-//                 <div className="p-6">
-//                   <h2 className="text-xl font-semibold text-gray-800 mb-2">
-//                     {advice.title}
-//                   </h2>
-//                   <p className="text-gray-600">{advice.description}</p>
-//                   {advice.category && (
-//                     <span className="inline-block mt-4 px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-full">
-//                       {advice.category}
-//                     </span>
-//                   )}
-//                 </div>
-//               </div>
-//             ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default CareerAdvicePage;
-
-
 "use client";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Head from "next/head";  // head import કરવો
+import Image from "next/image";
+import { motion } from "framer-motion";
+import ScrollAnimation from 'react-animate-on-scroll';
 
 interface Advice {
   id: number;
@@ -148,11 +61,14 @@ const CareerAdvicePage = () => {
 
       <div className="max-w-6xl mx-auto px-4 py-10">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-800">Career Advice</h1>
-          <p className="mt-3 text-gray-600 text-lg">
-            Expert tips to guide your career forward.
-          </p>
+          <ScrollAnimation animateIn='fadeIn' animateOnce={true} delay={500}>
+            <h1 className="text-4xl font-bold text-gray-800">Career Advice</h1>
+              <p className="mt-3 text-gray-600 text-lg">
+                Expert tips to guide your career forward.
+              </p>
+          </ScrollAnimation>
         </div>
+        {/* </motion.div> */}
 
         {loading && (
           <div className="flex justify-center items-center">
@@ -168,30 +84,40 @@ const CareerAdvicePage = () => {
             !error &&
             adviceList
               .sort((a, b) => a.order - b.order)
-              .map((advice) => (
-                <div
+              .map((advice, index) => (
+                <motion.div
                   key={advice.id}
-                  className="bg-white border rounded-2xl shadow-sm hover:shadow-lg transition overflow-hidden"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.4 }}
                 >
-                  {advice.image && (
-                    <img
-                      src={`${process.env.NEXT_PUBLIC_IMG_URL}/${advice.image}`}
-                      alt={advice.title}
-                      className="w-full h-48 object-cover"
-                    />
-                  )}
-                  <div className="p-6">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                      {advice.title}
-                    </h2>
-                    <p className="text-gray-600">{advice.description}</p>
-                    {advice.category && (
-                      <span className="inline-block mt-4 px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-full">
-                        {advice.category}
-                      </span>
+                  <div
+                    key={advice.id}
+                    className="bg-white border rounded-2xl shadow-sm hover:shadow-lg transition overflow-hidden"
+                  >
+
+                    {advice.image && (
+                      <Image
+                        src={`${process.env.NEXT_PUBLIC_IMG_URL}/${advice.image}`}
+                        alt={advice.title}
+                        className="w-full h-48 object-cover"
+                        width={500}
+                        height={300}
+                      />
                     )}
+                    <div className="p-6">
+                      <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                        {advice.title}
+                      </h2>
+                      <p className="text-gray-600">{advice.description}</p>
+                      {advice.category && (
+                        <span className="inline-block mt-4 px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-full">
+                          {advice.category}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
         </div>
       </div>

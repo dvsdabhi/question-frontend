@@ -45,6 +45,9 @@ import "./globals.css";
 import Header from "./header/header";
 import '@mantine/core/styles.css'; 
 import { MantineProvider } from "@mantine/core";
+import "animate.css/animate.compat.css"
+import Footer from "./footer/Footer";
+
 
 // Google fonts
 const geistSans = Geist({
@@ -116,6 +119,7 @@ export default function RootLayout({
         <MantineProvider>
           <Header />
           {children}
+          <Footer />
         </MantineProvider>
       </body>
     </html>

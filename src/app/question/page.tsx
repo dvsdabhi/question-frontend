@@ -1,115 +1,16 @@
-// "use client"
-
-// import React, { useEffect, useState } from 'react'
-// import { useRouter } from "next/navigation";
-// import axios from 'axios';
-// import { motion } from 'framer-motion';
-// import { Input } from "@/components/ui/input"
-
-// const questionPage = () => {
-//   const [languages, setLanguages] = useState([]);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState(null);
-//   const [searchTerm, setSearchTerm] = useState("");
-
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     const loadLanguages = async () => {
-//       console.log("Loading Start...");
-//       setLoading(true);
-//       setError(null);
-//       try {
-//         const res = await axios.get('http://localhost:8000/api/languages/');
-//         setLanguages(res.data);
-//         console.log("Languages loaded:", res.data);
-//       } catch (err) {
-//         console.log(err);
-//         setError('Server error. Please try again later.');
-//       } finally {
-//         setLoading(false);
-//         console.log("Loading End...");
-//       }
-//     };
-//     loadLanguages();
-//   }, []);
-
-//   const handleClick = (id: number) => {
-//     router.push(`/question/${id}`);
-//   };
-
-//   const filteredLanguages = languages.filter((lang: any) =>
-//     lang.name.toLowerCase().includes(searchTerm.toLowerCase())
-//   );
-
-//   return (
-//     <div className="flex flex-col items-center justify-center py-14 px-4 sm:px-6 lg:px-8">
-//       <div className="flex flex-col gap-5 text-center max-w-xl mx-auto mx">
-//         <b className="text-center text-muted-foreground font-semibold text-base">
-//           We&apos;re helping!
-//         </b>
-//         <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">
-//           See Question & Answer
-//         </h2>
-//         <p className="text-base sm:text-lg">
-//           Our mission is simple — curate real-world interview questions, provide expert insights, and help you confidently crack top tech interviews.
-//         </p>
-//         <div className='mt-4'>
-//           <Input placeholder="Search language" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-//         </div>
-//       </div>
-//       <div className="mt-20 w-full min-h-[200px] flex justify-center items-center max-w-screen-lg mx-auto">
-//         {loading ? (
-//           <>
-//             <div className="flex justify-center items-center">
-//               <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid"></div>
-//               <p className="ml-4 text-gray-600">Loading...</p>
-//             </div>
-//           </>
-//         ) : error ? (
-//           <p className="text-lg text-red-500">{error}</p>
-//         ) : (<>
-//           <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-12">
-//             {filteredLanguages.map((language: any, index) => (
-//               <div key={language?.id} className="text-center cursor-pointer" onClick={() => handleClick(language.id)}>
-//                 <motion.div
-//                   key={language?.id}
-//                   className="text-center cursor-pointer"
-//                   onClick={() => handleClick(language.id)}
-//                   initial={{ opacity: 0, y: 30 }}
-//                   animate={{ opacity: 1, y: 0 }}
-//                   transition={{ duration: 0.5, delay: index * 0.1 }}
-//                 >
-//                   <img
-//                     src={`http://127.0.0.1:8000${language.icon}`}
-//                     alt={language.name}
-//                     className="h-20 w-20 rounded-full object-cover mx-auto bg-secondary"
-//                     width={120}
-//                     height={120}
-//                   />
-//                   <h3 className="mt-4 text-lg font-semibold">{(language.name).toUpperCase()}</h3>
-//                 </motion.div>
-//               </div>
-//             ))}
-//           </div>
-//         </>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default questionPage;
-
-
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head"; // SEO માટે import
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Input } from "@/components/ui/input";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const QuestionPage = () => {
   const [languages, setLanguages] = useState([]);
@@ -134,6 +35,11 @@ const QuestionPage = () => {
     };
     loadLanguages();
   }, []);
+
+  // for animation
+  const titleRef = useRef(null);
+  const filterRef = useRef(null);
+  const titleInView = useInView(titleRef, { once: true, margin: "-100px" });
 
   const handleClick = (id: number) => {
     router.push(`/question/${id}`);
@@ -173,26 +79,37 @@ const QuestionPage = () => {
       </Head>
 
       <div className="flex flex-col items-center justify-center py-14 px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-5 text-center max-w-xl mx-auto">
-          <b className="text-center text-muted-foreground font-semibold text-base">
-            We&apos;re helping!
-          </b>
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">
-            See Question & Answer
-          </h2>
-          <p className="text-base sm:text-lg">
-            Our mission is simple — curate real-world interview questions,
-            provide expert insights, and help you confidently crack top tech
-            interviews.
-          </p>
-          <div className="mt-4">
-            <Input
-              placeholder="Search language"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+        {/* <ScrollAnimation animateIn="fadeIn" animateOnce={true} delay={500}> */}
+        <motion.div
+          ref={titleRef}
+          variants={fadeUp}
+          initial="hidden"
+          animate={titleInView ? "visible" : "hidden"}
+          transition={{ duration: 0.6 }}
+          className="text-center justify-items-center"
+        >
+          <div className="flex flex-col gap-5 text-center max-w-xl mx-auto">
+            <b className="text-center text-muted-foreground font-semibold text-base">
+              We&apos;re helping!
+            </b>
+            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">
+              See Question & Answer
+            </h2>
+            <p className="text-base sm:text-lg">
+              Our mission is simple — curate real-world interview questions,
+              provide expert insights, and help you confidently crack top tech
+              interviews.
+            </p>
+            <div className="mt-4">
+              <Input
+                placeholder="Search language"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
+        </motion.div>
+        {/* </ScrollAnimation> */}
         <div className="mt-20 w-full min-h-[200px] flex justify-center items-center max-w-screen-lg mx-auto">
           {loading ? (
             <div className="flex justify-center items-center">
@@ -210,8 +127,6 @@ const QuestionPage = () => {
                   onClick={() => handleClick(language.id)}
                 >
                   <motion.div
-                    key={language?.id}
-                    className="text-center cursor-pointer"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}

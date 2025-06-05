@@ -1,14 +1,20 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import { useRouter } from "next/navigation"; // ✅ App Router hook
-import axios from 'axios';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { motion, useInView } from "framer-motion";
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
 
 const SecondSection = () => {
-
   const [language, setLanguage] = useState([]);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const router = useRouter();
 
   useEffect(() => {
     const loadLanguages = async () => {
@@ -26,15 +32,23 @@ const SecondSection = () => {
     };
     loadLanguages();
   }, []);
-  const router = useRouter();
 
   const handleClick = (id: string) => {
     router.push(`/question/${id}`);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center py-14 px-4 sm:px-6 lg:px-8">
-      <div className="text-center max-w-xl mx-auto">
+    <div
+      ref={ref}
+      className="flex flex-col items-center justify-center py-14 px-4 sm:px-6 lg:px-8"
+    >
+      {/* Title Section */}
+      <motion.div
+        className="text-center max-w-xl mx-auto"
+        variants={fadeUp}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+      >
         <b className="text-center text-muted-foreground font-semibold text-base">
           We&apos;re helping!
         </b>
@@ -42,9 +56,13 @@ const SecondSection = () => {
           See Question & Answer
         </h2>
         <p className="mt-4 text-base sm:text-lg">
-          Our mission is simple — curate real-world interview questions, provide expert insights, and help you confidently crack top tech interviews.
+          Our mission is simple — curate real-world interview questions,
+          provide expert insights, and help you confidently crack top tech
+          interviews.
         </p>
-      </div>
+      </motion.div>
+
+      {/* Cards Section */}
       <div className="mt-20 w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-12 max-w-screen-lg mx-auto">
         {language.map((language: any, index: number) => (
           <motion.div
@@ -52,8 +70,8 @@ const SecondSection = () => {
             className="text-center cursor-pointer"
             onClick={() => handleClick(language.id)}
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: index * 0.15 }}
           >
             <img
               src={`${process.env.NEXT_PUBLIC_IMG_URL}/${language.icon}`}
@@ -66,13 +84,22 @@ const SecondSection = () => {
           </motion.div>
         ))}
       </div>
-      <div className="mt-[50px]">
-        <a href="/question"><button className="px-4 py-2 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition cursor-pointer">
-          View all
-        </button></a>
-      </div>
+
+      {/* Button Section */}
+      <motion.div
+        className="mt-[50px]"
+        variants={fadeUp}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+      >
+        <a href="/question">
+          <button className="px-4 py-2 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition cursor-pointer">
+            View all
+          </button>
+        </a>
+      </motion.div>
     </div>
   );
-}
+};
 
 export default SecondSection;

@@ -39,15 +39,15 @@ const Header = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
     return (
-        <header className="bg-white">
-            <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+        <header className="bg-[#f3f4f6] sticky top-0 z-50 px-5 md:px-0">
+            <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-2 lg:px-8">
                 <div className="flex lg:flex-1">
-                    <a href="#" className="-m-1.5 p-1.5">
+                    <a href="/" className="-m-1.5 p-1.5">
                         <span className="sr-only">Your Company</span>
                         <img
                             alt=""
-                            src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                            className="h-8 w-auto"
+                            src="/images/logo-transparent.png"
+                            className="h-10 w-auto"
                         />
                     </a>
                 </div>

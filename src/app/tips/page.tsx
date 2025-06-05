@@ -1,20 +1,14 @@
-// 'use client';
-
-// import TipsList from '@/components/TipsList';
-// import React from 'react';
-
-// export default function TipsPage() {
-//     return (
-//         <TipsList />
-//     );
-// }
-
-
 'use client';
 
 import React from 'react';
 import Head from 'next/head';
-import TipsList from '@/components/TipsList';
+// import TipsList from '@/components/TipsList';
+import dynamic from 'next/dynamic';
+
+// ✅ Lazy load the component — no server-side rendering
+const TipsList = dynamic(() => import('@/components/TipsList'), {
+  ssr: false, // disable SSR for this component
+});
 
 export default function TipsPage() {
   return (
