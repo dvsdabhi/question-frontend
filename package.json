@@ -36,7 +36,6 @@
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
-    "@types/react-animate-on-scroll": "^2.1.8",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.0",

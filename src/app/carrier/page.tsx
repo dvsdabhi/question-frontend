@@ -5,7 +5,6 @@ import axios from "axios";
 import Head from "next/head";  // head import કરવો
 import Image from "next/image";
 import { motion } from "framer-motion";
-import ScrollAnimation from 'react-animate-on-scroll';
 
 interface Advice {
   id: number;
@@ -61,12 +60,17 @@ const CareerAdvicePage = () => {
 
       <div className="max-w-6xl mx-auto px-4 py-10">
         <div className="text-center mb-12">
-          <ScrollAnimation animateIn='fadeIn' animateOnce={true} delay={500}>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
             <h1 className="text-4xl font-bold text-gray-800">Career Advice</h1>
-              <p className="mt-3 text-gray-600 text-lg">
-                Expert tips to guide your career forward.
-              </p>
-          </ScrollAnimation>
+            <p className="mt-3 text-gray-600 text-lg">
+              Expert tips to guide your career forward.
+            </p>
+          </motion.div>
         </div>
         {/* </motion.div> */}
 
