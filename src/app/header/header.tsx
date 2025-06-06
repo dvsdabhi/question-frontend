@@ -38,7 +38,8 @@ const callsToAction = [
 const Header = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-    return (
+    return (<>
+        <head><link rel="preload" as="image" href="/images/c.webp" type="image/webp" /></head>
         <header className="bg-[#f3f4f6] sticky top-0 z-50 px-5 md:px-0">
             <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-2 lg:px-8">
                 <div className="flex lg:flex-1">
@@ -46,8 +47,8 @@ const Header = () => {
                         <span className="sr-only">Your Company</span>
                         <img
                             alt=""
-                            src="/images/logo-transparent.png"
-                            className="h-10 w-auto"
+                            src="/images/logo-transparent.webp"
+                            className="h-10 w-12"
                         />
                     </a>
                 </div>
@@ -208,6 +209,7 @@ const Header = () => {
                 </DialogPanel>
             </Dialog>
         </header>
+    </>
     )
 }
 

@@ -16,7 +16,7 @@
 // export default page
 
 
-"use client";
+// "use client";
 
 import React from "react";
 import Head from "next/head";  // SEO માટે import

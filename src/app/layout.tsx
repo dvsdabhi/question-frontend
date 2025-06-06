@@ -43,7 +43,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./header/header";
-import '@mantine/core/styles.css'; 
+import '@mantine/core/styles.css';
 import { MantineProvider } from "@mantine/core";
 import "animate.css/animate.compat.css"
 import Footer from "./footer/Footer";
@@ -113,6 +113,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* ✅ Preload hero image */}
+        <link rel="preload" as="image" href="/images/c.webp" fetchPriority="high" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
